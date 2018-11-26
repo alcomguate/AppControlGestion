@@ -1,13 +1,33 @@
 <?php
+
+    // Validacion de usuario
+    function validate_login($credenciales=[]) {
+        global $db;
+
+        $nombre_usuario = $credenciales['usuario'];
+        $contrasena = $credenciales['password'];
+
+        $query = "SELECT * FROM Usuario ";
+        $query .= "WHERE nombre_usuario = '" . db_escape($db, $nombre_usuario);
+        $query .= "' AND contrasena = '" . db_escape($db, $contrasena) . "' LIMIT 1";
+
+        var_dump($query);
+        $result_set = mysqli_query($db, $query);
+        confirm_result_set($result_set);
+        $resultado = mysqli_fetch_assoc($result_set);
+        mysqli_free_result($result_set);
+        return $resultado;
+    }
+
     // CRUD Subjects
-    function find_all_subjects($options=[]){
+    function find_all_subjects($options=[]) {
         global $db;
 
         $visible = $options['visible'] ?? false;
 
         $query = "SELECT * FROM subjects ";
 
-        if($visble) {
+        if ($visble) {
             $query .= "WHERE visible = true ";
         }
         $query .= "ORDER BY position ASC";
