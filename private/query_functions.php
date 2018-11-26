@@ -1,5 +1,22 @@
 <?php
 
+    // Obteniendo todas las organizaciones
+    function get_all_organization($options=[]) {
+        global $db;
+
+        $activo = $options['activo'];
+        
+        $query = "SELECT * FROM Organizacion ";
+
+        if ($activo) {
+            $query .= "WHERE activo = true";
+        }
+
+        $result_set = mysqli_query($db, $query);
+        confirm_result_set($result_set);
+        return $result_set;
+    }
+
     // Validacion de usuario
     function validate_login($credenciales=[]) {
         global $db;
@@ -11,7 +28,22 @@
         $query .= "WHERE nombre_usuario = '" . db_escape($db, $nombre_usuario);
         $query .= "' AND contrasena = '" . db_escape($db, $contrasena) . "' LIMIT 1";
 
-        var_dump($query);
+        $result_set = mysqli_query($db, $query);
+        confirm_result_set($result_set);
+        $resultado = mysqli_fetch_assoc($result_set);
+        mysqli_free_result($result_set);
+        return $resultado;
+    }
+
+    // obtener permisos del usuario
+    function get_usertype_by_userid($user_id) {
+        global $db;
+
+        $query = "SELECT TU.* FROM Usuario U ";
+        $query .= "INNER JOIN Tipo_usuario TU ";
+        $query .= "ON TU.id = U.tipo_usuario ";
+        $query .= "WHERE U.id = " . db_escape($db, $user_id) . " LIMIT 1";
+
         $result_set = mysqli_query($db, $query);
         confirm_result_set($result_set);
         $resultado = mysqli_fetch_assoc($result_set);

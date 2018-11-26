@@ -3,7 +3,7 @@
 
 <?php 
 
-    $usuarioAutenticado = '';
+    
     if (is_post_request()) {
         $usuario = $_POST['txt-nickname'];
         $contrasena = $_POST['txt-password'];
@@ -28,8 +28,11 @@
     </div>
 
     <?php if ($usuarioAutenticado) {?>
-
+        <?php include PARTS_PATH . '/menu.php';?>
         <div data-role="content">
+
+            
+
             <h3>Bienvenido <?php echo $usuarioAutenticado['primer_nombre'] . " "
              . $usuarioAutenticado['primer_apellido'];?></h3>
         </div>
@@ -45,6 +48,6 @@
             data-rel="back">Aceptar</a>
             </center>
         </div>
-        
+
     <?php }?>
 </div>
