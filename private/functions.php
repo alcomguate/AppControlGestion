@@ -58,4 +58,9 @@
         } 
         return $output;
     }
+
+    function display_currentdate() {
+        $fechaActual = getdate();
+        return $fechaActual['mday'] . '/' . $fechaActual['mon'] . '/' . $fechaActual['year'];
+    }
 ?>

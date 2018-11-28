@@ -17,6 +17,23 @@
         return $result_set;
     }
 
+    // Obteniendo todas las categorias
+    function get_all_category($options=[]) {
+        global $db;
+
+        $activo = $options['activo'];
+        
+        $query = "SELECT * FROM Categoria ";
+
+        if ($activo) {
+            $query .= "WHERE activo = true";
+        }
+
+        $result_set = mysqli_query($db, $query);
+        confirm_result_set($result_set);
+        return $result_set;
+    }
+
     // Validacion de usuario
     function validate_login($credenciales=[]) {
         global $db;
@@ -49,6 +66,55 @@
         $resultado = mysqli_fetch_assoc($result_set);
         mysqli_free_result($result_set);
         return $resultado;
+    }
+
+    // CRUD Gestion
+    function insert_gestion($gestion) {
+        global $db;
+
+        $errors = validate_gestion($gestion);
+        if (!empty($errors)) {
+            return $errors;
+        }
+
+        $query = "INSERT INTO Gestion ";
+        $query .= "(titulo, descripcion, fecha_emision, estado, usuario_solicita, categoria) ";
+        $query .= "VALUES(";
+        $query .= "'" . db_escape($db,$gestion['titulo']) . "',";
+        $query .= "'" . db_escape($db,$gestion['descripcion']) . "',";
+        $query .= "SYSDATE(), 1,";
+        $query .= "'" . db_escape($db,$gestion['usuario_solicita']) . "',";
+        $query .= "'" . db_escape($db,$gestion['categoria']) . "')";
+
+        error_log($query);
+
+        $result_set = mysqli_query($db,$query);
+
+        if ($result_set) {
+            return true;
+        }else{
+            // echo mysql_error($db);
+            db_disconnect($db);
+            exit;
+        }
+    }
+
+    function validate_gestion($gestion) {
+        $errors = [];
+        
+        if(is_blank($gestion['titulo'])) {
+          $errors[] = "Título no puede estar en blanco.";
+        }elseif(!has_length($gestion['titulo'], ['min' => 2, 'max' => 100])) {
+          $errors[] = "Título debe contener entre 2 y 100 caracteres.";
+        }
+      
+        if(is_blank($gestion['descripcion'])) {
+            $errors[] = "Descripción no puede estar en blanco.";
+        } elseif(!has_length($gestion['descripcion'], ['min' => 2, 'max' => 1000])) {
+            $errors[] = "Descripción debe contener entre 2 y 1000 caracteres.";
+        }
+
+        return $errors;
     }
 
     // CRUD Subjects
