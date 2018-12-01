@@ -20,6 +20,16 @@
                     <h1>Consultar usuarios</h1>
                 </a>
             </li>
+            <li>
+                <a href="<?php echo url_for('/categoria/new.php');?>">
+                    <h1>Crear categoría</h1>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo url_for('/categoria/index.php');?>">
+                    <h1>Consultar categorías</h1>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

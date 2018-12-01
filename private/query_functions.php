@@ -300,4 +300,80 @@ function get_all_tipo_usuario($options=[])
     return $result_set;
 }
 
+// CRUD categorias
+function find_all_categoria($options=[]) 
+{
+    global $db;
+
+    $visible = $options['activo'] ?? false;
+
+    $query = "SELECT * FROM Categoria ";
+
+    if ($visible) {
+        $query .= " WHERE activo = true ";
+    }
+   
+    $result_set = mysqli_query($db,$query);
+    confirm_result_set($result_set);
+    return $result_set;
+}
+
+function find_categoria_by_id($id)
+{
+    global $db;
+    $query = "SELECT * FROM Categoria ";
+    $query .= "WHERE id='" . db_escape($db,$id) . "'";
+    $result_set = mysqli_query($db,$query);
+    confirm_result_set($result_set);
+    $subject = mysqli_fetch_assoc($result_set);
+    mysqli_free_result($result_set);
+    return $subject; // return como un arreglo asociativo
+}
+
+function update_categoria($categoria)
+{
+    global $db;
+
+    $errors = validate_categoria($categoria);
+    if(!empty($errors)){
+        return $errors;
+    }
+
+    $sql = "UPDATE Categoria SET ";
+    $sql .= "descripcion='". db_escape($db,$categoria['descripcion']) ."',";
+    $sql .= "organizacion='". db_escape($db,$categoria['organizacion']) ."',";
+    $sql .= "activo='". db_escape($db,$categoria['activo']) ."' ";
+    $sql .= "WHERE id='" . db_escape($db,$categoria['id']) . "' ";
+    $sql .= "LIMIT 1";
+
+    $result = mysqli_query($db,$sql);
+    // Para statements de tipo UPDATE obtenemos true/false
+    if($result){
+        return true;
+    }else{
+        echo mysqli_error($db);
+        db_disconnect($db);
+        exit;
+    } 
+}
+
+function delete_categoria($id)
+{
+    global $db;
+
+    $sql = "DELETE FROM Categoria ";
+    $sql .= "WHERE id='" . db_escape($db,$id) ."' ";
+    $sql .= "LIMIT 1";
+var_dump($sql);
+    $result = mysqli_query($db, $sql);
+    
+    if ($result) {
+        return true; 
+    } else {
+        echo mysql_error($db);
+        db_disconnect($db);
+        exit;
+    }    
+}
+
 ?>
