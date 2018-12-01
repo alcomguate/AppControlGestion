@@ -108,10 +108,12 @@ function find_gestion_by_id($id)
     global $db;
 
     $query = "SELECT G.*, U.nombre_usuario 'nombre_usr_solicita', ";
-    $query .= "U2.nombre_usuario 'nombre_usr_seguimiento', CA.descripcion 'cat_descripcion' ";
+    $query .= "U2.nombre_usuario 'nombre_usr_seguimiento', CA.descripcion 'cat_descripcion', ";
+    $query .= "EG.descripcion 'estado_descripcion' ";
     $query .= "FROM Gestion G INNER JOIN Usuario U ON U.id = G.usuario_solicita ";
     $query .= "LEFT JOIN Usuario U2 ON U2.id = G.usuario_seguimiento ";
     $query .= "INNER JOIN Categoria CA ON CA.id = G.categoria ";
+    $query .= "INNER JOIN Estado_gestion EG ON EG.id = G.estado ";
     $query .= "WHERE G.id='" . db_escape($db, $id) . "' LIMIT 1";
     var_dump($query);
     $result_set = mysqli_query($db, $query);
@@ -251,6 +253,24 @@ function find_all_usuario($options=[])
 
 }
 
+function delete_usuario($id){
+    global $db;
+
+    $sql = "DELETE FROM Usuario ";
+    $sql .= "WHERE id='" . db_escape($db,$id) ."' ";
+    $sql .= "LIMIT 1";
+//var_dump($sql);
+    $result = mysqli_query($db, $sql);
+    
+    if ($result) {
+        return true; 
+    } else {
+        echo mysql_error($db);
+        db_disconnect($db);
+        exit;
+    }    
+}
+
 function find_organizacion_by_id($id)
 {
     global $db;
@@ -362,7 +382,7 @@ function delete_categoria($id)
     global $db;
 
     $sql = "DELETE FROM Categoria ";
-    $sql .= "WHERE id='" . db_escape($db,$id) ."' ";
+    $sql .= "WHERE id='" . db_escape($db, $id) ."' ";
     $sql .= "LIMIT 1";
 var_dump($sql);
     $result = mysqli_query($db, $sql);
@@ -374,6 +394,81 @@ var_dump($sql);
         db_disconnect($db);
         exit;
     }    
+}
+
+function insert_categoria($categoria)
+{
+         
+        
+    global $db;
+
+    $errors = validate_categoria($categoria);
+    if(!empty($errors)){
+        return $errors;
+     
+    }
+
+    $query = "INSERT INTO Categoria ";
+    $query .= "(organizacion, descripcion, activo)";
+    $query .= "VALUES(";
+    $query .= "'" . db_escape($db,$categoria['organizacion']) . "',";
+    $query .= "'" . db_escape($db,$categoria['descripcion']) . "', ";
+    $query .= "'" . db_escape($db,$categoria['estado']) . "')";
+
+    $result_set = mysqli_query($db,$query);
+  
+  
+    if ($result_set) {
+        return true;
+  
+       
+    }else{
+        echo mysqli_error($db);
+        db_disconnect($db);
+        exit;
+    }
+
+}
+
+// Querys de comentarios
+function find_all_comentario_gestio($gestion_id) 
+{
+    global $db;
+
+    $query = "SELECT * FROM Comentario_gestion ";
+    $query .= "WHERE gestion = " . db_escape($db, $gestion_id);
+
+    $result_set = mysqli_query($db, $query);
+    confirm_result_set($result_set);
+    return $result_set;
+}
+
+function insert_comentario($comentario)
+{
+         
+        
+    global $db;
+
+    
+
+    $query = "INSERT INTO Comentario_gestion ";
+    $query .= "(gestion, no_comentario, comentario, fecha_creacion, usuario)";
+    $query .= "VALUES(";
+    $query .= "'" . db_escape($db, $comentario['gestion']) . "',";
+    $query .= "'1',";
+    $query .= "'" . db_escape($db, $comentario['comentario']) . "', ";
+    $query .= "SYSDATE(), ";
+    $query .= "'" . db_escape($db, $comentario['usuario']) . "')";
+
+    $result_set = mysqli_query($db, $query);
+  
+  
+    if ($result_set) {
+        return true;
+  
+       
+    }
+
 }
 
 ?>

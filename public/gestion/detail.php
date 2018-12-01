@@ -12,6 +12,10 @@
             data-iconpos="notext">Refresh</a>
     </div>
     <div data-role="content">
+
+        <form action="<?php echo url_for('/gestion/comentario.php'); ?>" method="post">
+
+        <input type="hidden" name="txt_gestionid" id="txt_gestionid" value="<?php echo $gestion['id'];?>">
         <label for="txt_titulo">Título</label>
         <input type="text" id="txt_titulo" name="txt_titulo" readonly
             value="<?php echo $gestion['titulo']; ?>">
@@ -28,7 +32,15 @@
         <input type="text" id="txt_categoria" name="txt_categoria" readonly
             value="<?php echo $gestion['cat_descripcion']; ?>">
 
+        <label for="txt_estado">Estado</label>
+        <input type="text" id="txt_estado" name="txt_estado" readonly
+            value="<?php echo $gestion['estado_descripcion']; ?>">
+
         <input type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-left ui-icon-plus" 
-                    value="Agregar comentario">
+                    value="Ver comentarios">
+        
+        <a href="" 
+            class="ui-btn ui-corner-all ui-shadow ui-btn-icon-left ui-icon-plus">Finalizar gestion</a>
+        </form>
     </div>
 </div>
