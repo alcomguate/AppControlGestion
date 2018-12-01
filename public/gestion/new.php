@@ -1,4 +1,4 @@
-<?php include_once '../../private/initialize.php'?>
+<?php require_once '../../private/initialize.php'?>
 
 <?php 
 
@@ -30,8 +30,10 @@
 ?>
 
 <div data-role="page">
-    <div data-role="header" data-theme="a">
+    <div data-role="header" data-theme="b">
         <h1>Control de gestiones</h1>
+        <a href="<?php echo PROJECT_PATH . '/index.php';?>" data-rel="back" 
+            data-icon="carat-l" data-iconpos="notext">Inicio</a>
     </div>
     <div data-role="content">
 
@@ -53,9 +55,11 @@
                 id="txt_descripcion" required></textarea>
 
             <label for="fecha_actual">Fecha de solicitud</label>
-            <input type="text" name="fecha_actual" id="fecha_actual" value="<?php echo display_currentdate();?>" readonly>
+            <input type="text" name="fecha_actual" id="fecha_actual" 
+                value="<?php echo display_currentdate();?>" readonly>
 
-            <input type="hidden" name="hd_usuario" id="hd_usuario" value="<?php echo $usuario;?>">
+            <input type="hidden" name="hd_usuario" id="hd_usuario" 
+                value="<?php echo $usuario;?>">
 
             <input type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b" 
                     value="Crear solicitud">

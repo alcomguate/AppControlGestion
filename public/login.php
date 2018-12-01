@@ -1,4 +1,5 @@
-<?php include_once '../private/initialize.php'?>
+<?php include_once '../private/initialize.php'; ?>
+
 
 <?php 
 
@@ -13,34 +14,27 @@
 <head>
     <title>Control de gestiones - Bienvenido</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <link rel="stylesheet" 
-        href="<?php echo url_for('/css/jquery.mobile-1.3.0.min.css'); ?>">
+
+    <link rel="stylesheet" href="<?php echo url_for('/css/jquery.mobile-1.4.5.min.css'); ?>">    
     <link rel="stylesheet" href="<?php echo url_for('/css/style.css'); ?>">
+    <link rel="stylesheet" 
+        href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
     
     <script src="<?php echo url_for('/js/jquery.js'); ?>"></script>
-    <script src="<?php echo url_for('/js/jquery.mobile-1.3.0.js'); ?>"></script>
+    <script src="<?php echo url_for('/js/jquery.mobile-1.4.5.min.js'); ?>"></script>
 
 </head>
+
 <body>
-<div data-role="page">
-        <div data-role="header" data-theme="a">
+    <div data-role="page">
+        <div data-role="header" data-theme="b">
             <h1>Control de gestiones</h1>
         </div>
 
         <div role="main" class="ui-content">
-        <form action="index.php" method="post">
+        <form action="index.php" method="post" class="ui-content">
             <h3>Iniciar sesión</h3>
 
-            <label for="cbx_organization" class="select">Organización</label>
-            <select name="cbx_organization" id="cbx_organization">
-            <?php while ($organizacion = mysqli_fetch_assoc($organizacion_set)) {?>
-                <option value="<?php echo $organizacion['id']?>">
-                    <?php echo $organizacion['nombre']?>
-                </option>
-            <?php } ?>
-            </select>
-            
             <label for="txt-nickname">Usuario</label>
             <input type="text" name="txt-nickname" id="txt-nickname" value="pgomez">
             
@@ -48,13 +42,11 @@
             <input type="password" name="txt-password" id="txt-password" 
                 value="123456">
             
-            <input type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b" 
+            <input type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b"
                 value="Iniciar sesión">
 
-            
-
         </form>
-        </div><!-- /content -->
-    </div><!-- /page -->
+        </div>
+    </div>
 </body>
 </html>
