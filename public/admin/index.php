@@ -3,8 +3,8 @@
 <div data-role="page">
     <div data-role="header" data-theme="b">
         <h1>Control de gestiones</h1>
-        <a href="#" onclick="window.location.reload()" data-icon="back" 
-            data-iconpos="notext">Refresh</a>
+        <a  href="<?php echo url_for('/index.php');?>" data-rel="back" 
+            data-icon="carat-l" data-iconpos="notext">Inicio</a>
     </div>
     <div data-role="content" class="ui-content">
 

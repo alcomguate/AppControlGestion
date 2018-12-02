@@ -32,7 +32,7 @@
 <div data-role="page">
     <div data-role="header" data-theme="b">
         <h1>Control de gestiones</h1>
-        <a href="<?php echo PROJECT_PATH . '/index.php';?>" data-rel="back" 
+        <a  href="<?php echo url_for('/index.php');?>" data-rel="back" 
             data-icon="carat-l" data-iconpos="notext">Inicio</a>
     </div>
     <div data-role="content">
@@ -48,11 +48,11 @@
             </select>
 
             <label for="txt_titulo">Título</label>
-            <input type="text" name="txt_titulo" id="txt_titulo" required>
+            <input type="text" name="txt_titulo" id="txt_titulo" maxlength="100" required>
 
             <label for="txt_descripcion">Descripción</label>
             <textarea cols="40" rows="8" name="txt_descripcion" 
-                id="txt_descripcion" required></textarea>
+                id="txt_descripcion" maxlength="1000" required></textarea>
 
             <label for="fecha_actual">Fecha de solicitud</label>
             <input type="text" name="fecha_actual" id="fecha_actual" 

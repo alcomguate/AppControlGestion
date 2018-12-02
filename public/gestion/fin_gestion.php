@@ -10,6 +10,7 @@ if (is_post_request())
     $data['comentario'] = $comentario;
     $data['usuario'] = '1';
     insert_comentario($data);
+    cerrar_gestion($gestion_id);
     
 }
 ?>
@@ -22,7 +23,7 @@ if (is_post_request())
     <div data-role="content" class="ui-content">
     <form action="<?php echo url_for('/gestion/detail.php'); ?>" method="post">
         
-        <h1>Comentario guardado en el sistema</h1>
+        <h1>Gestion finalizada</h1>
         <input type="hidden" name="txt_gestionid" id="txt_gestionid" 
                 value="<?php echo $gestion_id;?>">
             <input type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b" 

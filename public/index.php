@@ -3,24 +3,34 @@
 <?php 
     
 if (is_post_request()) {
-    $usuario = $_POST['txt-nickname'];
-    $contrasena = $_POST['txt-password'];
+    $_SESSION['usuario'] = $_POST['txt-nickname'];
+    $_SESSION['contrasena'] = $_POST['txt-password'];
 
 }
 
-$credenciales = [];
-$credenciales['usuario'] = $usuario;
-$credenciales['password'] = $contrasena;
-$usuarioAutenticado = validate_login($credenciales);
+if ( $_SESSION["usuarioAutenticado"] == null) {
+    $credenciales = [];
+    $credenciales['usuario'] = $_SESSION['usuario'];
+    $credenciales['password'] = $_SESSION['contrasena'];
+    $usuarioAutenticado = validate_login($credenciales);
 
+    $_SESSION["usuarioAutenticado"] = $usuarioAutenticado;
+} else {
+    $usuarioAutenticado = $_SESSION["usuarioAutenticado"];
+}
 ?>
 
 <div data-role="page">
     <div data-role="header" data-theme="b">
         <h1>Control de gestiones</h1>
     </div>
+    <input type="hidden" name="hdd_usuario" id="hdd_usuario" value="<?php echo $usuarioAutenticado['id']; ?>">
+
     <?php if ($usuarioAutenticado) {?>
+        
         <?php include PARTS_PATH . '/menu.php';?>
+
+
         <div data-role="content">
             <h1><?php echo $usuarioAutenticado['org_nombre']?></h1>
             <br>

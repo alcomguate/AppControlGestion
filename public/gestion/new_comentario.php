@@ -1,20 +1,24 @@
 <?php require_once '../../private/initialize.php'?>
 
 <?php 
+$fin_gestion = null;
 if (is_post_request())
 {
     $gestion_id = $_POST['txt_gestionid'];
+} else {
+    $fin_gestion = $_GET['fin'];
+    $gestion_id = $_GET['gestion'];
 }
 ?>
 <div data-role="page">
     <div data-role="header" data-theme="b">
         <h1>Control de gestiones</h1>
-        <a href="#" onclick="window.location.reload()" data-icon="back" 
-            data-iconpos="notext">Refresh</a>
+        <a  href="<?php echo url_for('/index.php');?>" data-rel="back" 
+            data-icon="carat-l" data-iconpos="notext">Inicio</a>
     </div>
     <div data-role="content" class="ui-content">
 
-        <form action="<?php echo url_for('/gestion/save_comentario.php'); ?>" method="post">
+        <form action="<?php if ($fin_gestion) {echo url_for('/gestion/fin_gestion.php');} else { echo url_for('/gestion/save_comentario.php'); } ?>" method="post">
             <input type="hidden" name="txt_gestionid" id="txt_gestionid" 
                 value="<?php echo $gestion_id;?>">
 

@@ -8,8 +8,8 @@
 <div data-role="page">
     <div data-role="header" data-theme="b">
         <h1>Control de gestiones</h1>
-                <a href="#" onclick="window.location.reload()" data-icon="back" 
-            data-iconpos="notext">Refresh</a>
+        <a  href="<?php echo url_for('/index.php');?>" data-rel="back" 
+            data-icon="carat-l" data-iconpos="notext">Inicio</a>
     </div>
     <div data-role="content">
 
@@ -21,8 +21,8 @@
             value="<?php echo $gestion['titulo']; ?>">
 
         <label for="txt_descripcion">Descripción</label>
-        <input type="text" id="txt_descripcion" name="txt_descripcion" readonly
-            value="<?php echo $gestion['descripcion']; ?>">
+        <textarea cols="40" rows="8" id="txt_descripcion" name="txt_descripcion" readonly>
+            <?php echo $gestion['descripcion']; ?></textarea>
 
         <label for="txt_fechaemision">Fecha de emisión</label>
         <input type="text" id="txt_fechaemision" name="txt_fechaemision" readonly
@@ -39,8 +39,13 @@
         <input type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-icon-left ui-icon-plus" 
                     value="Ver comentarios">
         
-        <a href="" 
-            class="ui-btn ui-corner-all ui-shadow ui-btn-icon-left ui-icon-plus">Finalizar gestion</a>
+        
         </form>
+
+        
     </div>
+    <?php if ($gestion['estado'] == 1) {?>
+    <a href="<?php echo url_for('/gestion/new_comentario.php?fin=1&gestion=' . $gestion['id']); ?>" 
+            class="ui-btn ui-corner-all ui-shadow">Finalizar gestion</a>
+    <?php } ?>
 </div>

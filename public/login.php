@@ -36,11 +36,11 @@
             <h3>Iniciar sesión</h3>
 
             <label for="txt-nickname">Usuario</label>
-            <input type="text" name="txt-nickname" id="txt-nickname" value="pgomez">
+            <input type="text" name="txt-nickname" id="txt-nickname" value="">
             
             <label for="txt-password">Contraseña</label>
             <input type="password" name="txt-password" id="txt-password" 
-                value="123456">
+                value="">
             
             <input type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-b"
                 value="Iniciar sesión">

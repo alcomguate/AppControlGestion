@@ -86,18 +86,15 @@ function find_all_estado_g()
 }
 
 // CRUD Gestion
-function find_all_gestion($options = []) 
+function find_all_gestion() 
 {
     global $db;
 
-    $estado = $options['estado'];
+    $query = "SELECT G.*, U.nombre_usuario, EG.descripcion 'estado_gest' FROM Gestion G ";
+    $query .= "INNER JOIN Usuario U ON U.id = G.usuario_solicita ";
+    $query .= "INNER JOIN Estado_gestion EG ON EG.id = G.estado ";
     
-    $query = "SELECT G.*, U.nombre_usuario FROM Gestion G INNER JOIN Usuario U ON U.id = G.usuario_solicita ";
-
-    if ($estado) {
-        $query .= "WHERE estado = " . $estado;
-    }
-
+    var_dump($query);
     $result_set = mysqli_query($db, $query);
     confirm_result_set($result_set);
     return $result_set;
@@ -216,6 +213,45 @@ function insert_usuario($usuario)
         exit;
     }
 
+}
+
+function update_usuario($usuario)
+{
+    global $db;
+
+    /*
+    $errors = validate_categoria($categoria);
+    if(!empty($errors)){
+        return $errors;
+    }*/
+
+    $sql = "UPDATE Usuario SET ";
+    $sql .= "nombre_usuario='". db_escape($db,$usuario['nombre_usuario']) ."',";
+    $sql .= "primer_nombre='". db_escape($db,$usuario['primer_nombre']) ."',";
+    $sql .= "segundo_nombre='". db_escape($db,$usuario['segundo_nombre']) ."',";
+    $sql .= "primer_apellido='". db_escape($db,$usuario['primer_apellido']) ."',";
+    $sql .= "segundo_apellido='". db_escape($db,$usuario['segundo_apellido']) ."',";
+    $sql .= "genero='". db_escape($db,$usuario['genero']) ."',";
+    $sql .= "fecha_nacimiento='". db_escape($db,$usuario['fecha_nacimiento']) ."',";
+    $sql .= "correo_electronico='". db_escape($db,$usuario['correo_electronico']) ."',";
+    $sql .= "contrasena='". db_escape($db,$usuario['contrasena']) ."',";
+    $sql .= "tipo_usuario='". db_escape($db,$usuario['tipo_usuario']) ."',";
+    $sql .= "activo=". db_escape($db,$usuario['activo']) .",";
+    $sql .= "organizacion='". db_escape($db,$usuario['organizacion']) . "'";
+    $sql .= "WHERE id='" . db_escape($db,$usuario['id']) . "' ";
+    $sql .= "LIMIT 1";
+
+    var_dump($sql);
+
+    $result = mysqli_query($db,$sql);
+    // Para statements de tipo UPDATE obtenemos true/false
+    if($result){
+        return true;
+    }else{
+        echo mysqli_error($db);
+        db_disconnect($db);
+        exit;
+    } 
 }
 
 function get_all_usuario($options=[]) 
@@ -435,7 +471,8 @@ function find_all_comentario_gestio($gestion_id)
 {
     global $db;
 
-    $query = "SELECT * FROM Comentario_gestion ";
+    $query = "SELECT CG.*, U.nombre_usuario FROM Comentario_gestion CG ";
+    $query .= "INNER JOIN Usuario U ON U.id = CG.usuario ";
     $query .= "WHERE gestion = " . db_escape($db, $gestion_id);
 
     $result_set = mysqli_query($db, $query);
@@ -445,30 +482,38 @@ function find_all_comentario_gestio($gestion_id)
 
 function insert_comentario($comentario)
 {
-         
-        
     global $db;
 
-    
-
     $query = "INSERT INTO Comentario_gestion ";
-    $query .= "(gestion, no_comentario, comentario, fecha_creacion, usuario)";
+    $query .= "(gestion, comentario, fecha_creacion, usuario)";
     $query .= "VALUES(";
     $query .= "'" . db_escape($db, $comentario['gestion']) . "',";
-    $query .= "'1',";
     $query .= "'" . db_escape($db, $comentario['comentario']) . "', ";
     $query .= "SYSDATE(), ";
     $query .= "'" . db_escape($db, $comentario['usuario']) . "')";
 
+    error_log($query);
     $result_set = mysqli_query($db, $query);
-  
   
     if ($result_set) {
         return true;
-  
-       
     }
+}
 
+function cerrar_gestion($gestion) 
+{
+    global $db;
+
+
+    $sql = "UPDATE Gestion SET ";
+    $sql .= "estado='2'";
+    $sql .= "WHERE id='" . db_escape($db, $gestion) . "' ";
+    $sql .= "LIMIT 1";
+
+    $result = mysqli_query($db,$sql);
+    if ($result) {
+        return true;
+    }
 }
 
 ?>
